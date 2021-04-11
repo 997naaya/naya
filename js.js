@@ -1,3 +1,4 @@
+var _count = 0;
 function addToTable() {
   let phNumber = document.getElementById("phoneNumber").value;
   let conName = document.getElementById("contactName").value;
@@ -20,6 +21,8 @@ function addToTable() {
   element.type = "checkbox";
   element.name = "chk";
   element.className = "checkBox";
+  element.id = "checkBox"+_count;
+  _count ++;
   element.value = "";
   cell.appendChild(element);
   // cleaning up ur inputs
@@ -39,6 +42,7 @@ addARowBtn.addEventListener("click", (e) => {
   let arrVals = {
     phNumber,
     conName,
+    id: "checkBox"+(_count-1),
     checked: false,
     elementIndex: null,
   };
@@ -90,8 +94,14 @@ document.getElementById('select').onclick = function() {
 
 
 function send() {
+  let elements = [];
+  infoArr.forEach(function filter(item, index) {
+      if(document.getElementById(item.id).checked) { item.checked = true; elements.push(item);  }
+
+  });
+
   const data = {
-    phoneNumbers: infoArr ,
+    phoneNumbers: elements ,
     messageTemplate: document.getElementById("mesTe").value,
   };
   const jsonStr = JSON.stringify(data);
